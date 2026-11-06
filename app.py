@@ -239,7 +239,12 @@ def process_file(local_files, drive_id, category, output_ext):
                 if output_ext in ["jpg", "jpeg"] and image.mode in ("RGBA", "P"):
                     image = image.convert("RGB")
                 if output_ext == "ico":
-                    image.save(final_filename, format="ICO", sizes=[(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
+                    image = image.convert("RGBA")
+                    width, height = image.size
+                    max_dim = max(width, height)
+                    square_img = Image.new("RGBA", (max_dim, max_dim), (255, 255, 255, 0))
+                    square_img.paste(image, ((max_dim - width) // 2, (max_dim - height) // 2))
+                    square_img.save(final_filename, format="ICO", sizes=[(16, 16), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)])
                 else:
                     image.save(final_filename)
                 status_log += f"✅ Image converted to {output_ext.upper()} via Pillow.\n"
