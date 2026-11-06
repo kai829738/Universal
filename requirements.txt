@@ -1,0 +1,7 @@
+gradio
+gdown
+pdf2docx
+PyMuPDF
+python-pptx
+Pillow
+cairosvg
